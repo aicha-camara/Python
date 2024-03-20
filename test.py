@@ -39,7 +39,7 @@ class DemineurUI(tk.Tk):
 
     def create_ui(self):
         # Charger l'image
-        image = Image.open("pngwing.com (10).png")  # Remplacez "background_image.jpg" par le chemin de votre image
+        image = Image.open("plateau.png")  # Remplacez "background_image.jpg" par le chemin de votre image
         photo = ImageTk.PhotoImage(image)
 
         # Créer un label pour afficher l'image
