@@ -25,11 +25,6 @@ class DemineurUI(tk.Tk):
         self.niveau_facile()
         self.timer_actif = False
         self.temps_ecoule = 0
-        self.texte_timer = "Temps écoulé : 0 secondes"  # Initialisez le texte du timer
-        self.label_timer = tk.Label(self.frame_menu, text=self.texte_timer, font=("Helvetica", 12),
-                                    bg='#7e5835', fg="white", borderwidth=2, relief="groove", padx=10, pady=5)
-        self.label_timer.grid(row=0, column=0, sticky="ew", padx=5, pady=(10, 0))
-
 
     def interface(self):
         # Fond de l'application
@@ -59,14 +54,14 @@ class DemineurUI(tk.Tk):
 
         # Ajouter le texte du titre au centre de l'image
         titre = "Demineur"
-        titre_label = tk.Label(title_frame, text=titre, fg="white", bg="#692000", font=("Helvetica", 16))
+        titre_label = tk.Label(title_frame, text=titre, fg="white", bg="#692000", font=("Verdana", 16))
         # Calculer les coordonnées x et y pour placer le texte au centre de l'image
         x = (nouvelle_largeur - titre_label.winfo_reqwidth()) / 2
         y = (nouvelle_hauteur - titre_label.winfo_reqheight()) / 2
         titre_label.place(x=x, y=y)
 
         # Ajouter le label pour les messages
-        self.message_label = tk.Label(self, text="", font=("Helvetica", 12),
+        self.message_label = tk.Label(self, text="", font=("Verdana", 12),
                                       bg='#7e5835',
                                       fg="white", borderwidth=2, relief="groove", padx=10, pady=5)
         self.message_label.grid(row=0, column=2, sticky="ew", padx=5, pady=(10, 0))
@@ -78,6 +73,10 @@ class DemineurUI(tk.Tk):
         # Boîte menu
         self.frame_menu = tk.Frame(self, bg="#764929", width=400, height=400, relief="groove")
         self.frame_menu.grid(row=1, column=2, padx=10)
+        self.texte_timer = "Temps écoulé : 0 secondes"  # Initialisez le texte du timer
+        self.label_timer = tk.Label(self.frame_menu, text=self.texte_timer, font=("Verdana", 15,),
+                                    bg='#7e5835', fg="white", borderwidth=2, relief="groove", padx=10, pady=5)
+        self.label_timer.grid(row=0, column=0, sticky="ew", padx=5, pady=(10, 0))
 
         # Contours des frames
         self.frame_grille.config(borderwidth=2, relief="raised")
@@ -86,23 +85,25 @@ class DemineurUI(tk.Tk):
         # Création de la grille de jeu
         self.creation_grille()
 
-
-
         # Boutons pour les niveaux de difficulté
-        self.bouton_niveau_facile = tk.Button(self.frame_menu, text="Facile", command=self.niveau_facile, width=10,
+        self.bouton_niveau_facile = tk.Button(self.frame_menu, text="Facile", font="Verdana, 11",
+                                              command=self.niveau_facile, width=10,
                                               height=1, relief="groove")
-        self.bouton_niveau_facile.grid(row=1, column=0, padx=5, pady=5)
+        self.bouton_niveau_facile.grid(row=1, column=0, padx=5, pady=6)
 
-        self.bouton_niveau_moyen = tk.Button(self.frame_menu, text="Moyen", command=self.niveau_moyen, width=10,
+        self.bouton_niveau_moyen = tk.Button(self.frame_menu, text="Moyen", font="Verdana, 11",
+                                             command=self.niveau_moyen, width=10,
                                              height=1, relief="groove")
-        self.bouton_niveau_moyen.grid(row=2, column=0, padx=5, pady=5)
+        self.bouton_niveau_moyen.grid(row=2, column=0, padx=5, pady=6)
 
-        self.bouton_niveau_difficile = tk.Button(self.frame_menu, text="Difficile", command=self.niveau_difficile,
+        self.bouton_niveau_difficile = tk.Button(self.frame_menu, text="Difficile", font="Verdana, 11",
+                                                 command=self.niveau_difficile,
                                                  width=10, height=1, relief="groove")
-        self.bouton_niveau_difficile.grid(row=3, column=0, padx=5, pady=5)
+        self.bouton_niveau_difficile.grid(row=3, column=0, padx=5, pady=6)
 
         # Bouton pour réinitialiser le jeu
-        self.bouton_reset_niveau = tk.Button(self.frame_menu, text="Réinitialiser", command=self.reset_partie, width=10,
+        self.bouton_reset_niveau = tk.Button(self.frame_menu, text="Réinitialiser", font="Verdana, 15",
+                                             command=self.reset_partie, width=10,
                                              height=2)
         self.bouton_reset_niveau.grid(row=4, column=0, padx=5, pady=5)
 
@@ -125,6 +126,7 @@ class DemineurUI(tk.Tk):
         # Sinon, placez un drapeau
         else:
             case.config(text="", fg="red")
+
     def creation_grille(self):
         # Initialisation de la grille de cases
         self.grille_cases = []
@@ -213,6 +215,7 @@ class DemineurUI(tk.Tk):
             self.arreter_timer()
 
     def reveler_cases_vides(self, ligne, colonne):
+        # Parcours des cases adjacentes à la case vide
         for ligne_adjacente in range(max(0, ligne - 1), min(self.demineur.hauteur, ligne + 2)):
             for colonne_adjacente in range(max(0, colonne - 1), min(self.demineur.largeur, colonne + 2)):
                 # Vérifie si la case adjacente n'est pas déjà révélée et n'est pas une bombe
@@ -239,15 +242,15 @@ class DemineurUI(tk.Tk):
 
     def niveau_facile(self):
         # Réinitialiser le jeu avec les paramètres du niveau facile
-        self.reset_partie(10, 10, random.randint(1, 1))
+        self.reset_partie(10, 10, random.randint(10, 15))
 
     def niveau_moyen(self):
         # Réinitialiser le jeu avec les paramètres du niveau moyen
-        self.reset_partie(13, 13, random.randint(20, 40))
+        self.reset_partie(13, 13, random.randint(20, 35))
 
     def niveau_difficile(self):
         # Réinitialiser le jeu avec les paramètres du niveau difficile
-        self.reset_partie(16, 16, random.randint(60, 80))
+        self.reset_partie(14, 14, random.randint(45, 55))
 
     def reset_partie(self, hauteur=None, largeur=None, mines=None):
         # Utiliser les paramètres donnés ou les valeurs par défaut pour réinitialiser le jeu
@@ -255,22 +258,21 @@ class DemineurUI(tk.Tk):
         largeur = largeur or self.demineur.largeur
         mines = mines or self.demineur.mines
         self.etat_clique = True
-        self.temps_ecoule = 0# Activer l'état de clic pour permettre les interactions avec la grille
-        self.arreter_timer()
+        self.temps_ecoule = 0  # Réinitialiser le temps écoulé
+        self.arreter_timer()  # Arrêter le timer s'il est en cours
 
         # Supprimer les widgets existants de la grille de jeu
         for row in self.grille_cases:
             for case in row:
                 case.destroy()
 
-        # Réinitialiser la grille de jeu avec les nouvelles dimensions et nombre de mines
+        # Réinitialiser la grille de jeu avec les nouvelles dimensions et le nombre de mines
         self.demineur = Demineur(hauteur, largeur, mines)
         self.creation_grille()  # Recréer la grille de jeu avec les nouvelles dimensions
-        self.message_label.config(text="")
+        self.message_label.config(text="")  # Effacer tout message affiché précédemment
 
     def demarrer_timer(self):
         # Démarre le chronomètre en mettant à jour l'attribut timer_actif et en appelant la méthode d'actualisation du chronomètre
-
         self.timer_actif = True
         self.actualiser_timer()
 
@@ -280,12 +282,11 @@ class DemineurUI(tk.Tk):
             self.temps_ecoule += 1
             self.texte_timer = "Temps écoulé : " + str(self.temps_ecoule) + " secondes"
             self.label_timer.config(text=self.texte_timer)
-            self.after(1000, self.actualiser_timer)
+            self.after(1000, self.actualiser_timer)  # Appel récursif pour mettre à jour le chronomètre chaque seconde
 
     def arreter_timer(self):
-            # Arrête le chronomètre en mettant à jour l'attribut timer_actif
+        # Arrête le chronomètre en mettant à jour l'attribut timer_actif
         self.timer_actif = False
-        # Effacer tout message affiché précédemment
 
 
 if __name__ == "__main__":
