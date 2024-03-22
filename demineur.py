@@ -1,6 +1,4 @@
-import tkinter as tk
 import random
-from PIL import Image, ImageTk
 
 class Demineur:
     def __init__(self, hauteur, largeur, mines):
@@ -27,5 +25,3 @@ class Demineur:
                 if self.grille[i][j] == -1:
                     compteur += 1
         return compteur
-
-
