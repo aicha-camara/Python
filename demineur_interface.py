@@ -3,8 +3,6 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from demineur import Demineur
 
-
-
 class DemineurUI(tk.Tk):
     def __init__(self, hauteur, largeur, mines):
         super().__init__()
@@ -147,9 +145,8 @@ class DemineurUI(tk.Tk):
                 case_label.bind("<Button-1>",
                                 lambda e, ligne=ligne_index, colonne=colonne_index: self.reveler_cases(ligne, colonne))
                 case_label.bind("<Button-3>",
-                                lambda event, ligne=ligne_index, colonne=colonne_index: self.gestion_clic_droit(event,
-                                                                                                                ligne,
-                                                                                                                colonne))
+                                lambda event, ligne=ligne_index, colonne=colonne_index: self.gestion_clic_droit
+                                (event, ligne, colonne))
 
                 # Ajout d'un effet de survol à l'étiquette
                 self.effet_clique(case_label)
@@ -272,7 +269,7 @@ class DemineurUI(tk.Tk):
         self.message_label.config(text="")  # Effacer tout message affiché précédemment
 
     def demarrer_timer(self):
-        # Démarre le chronomètre en mettant à jour l'attribut timer_actif et en appelant la méthode d'actualisation du chronomètre
+        # Démarre le chrono en mettant à jour l'attribut timer_actif
         self.timer_actif = True
         self.actualiser_timer()
 
