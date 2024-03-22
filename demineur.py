@@ -2,7 +2,6 @@ import tkinter as tk
 import random
 from PIL import Image, ImageTk
 
-
 class Demineur:
     def __init__(self, hauteur, largeur, mines):
         self.hauteur = hauteur
@@ -29,7 +28,6 @@ class Demineur:
                     compteur += 1
         return compteur
 
-
 class DemineurUI(tk.Tk):
     def __init__(self, hauteur, largeur, mines):
         super().__init__()
@@ -40,7 +38,6 @@ class DemineurUI(tk.Tk):
         self.create_ui()
         self.victoire_affichee = False
         self.click = True
-
         self.set_easy()
 
     def create_ui(self):
@@ -78,11 +75,13 @@ class DemineurUI(tk.Tk):
         title_label.place(x=x, y=y)
 
         # Ajouter le label pour les messages
-        self.message_label = tk.Label(self, text="", font=("Helvetica", 12), bg="#764929", fg="red")
+        self.message_label = tk.Label(self, text="",font=("Helvetica", 12),
+                                    bg='#7e5835',
+                                    fg="white", borderwidth=2, relief="groove", padx=10, pady=5)
         self.message_label.grid(row=0, column=2, sticky="ew", padx=5, pady=(10, 0))
 
         # Frames grille
-        self.game_frame = tk.Frame(self, bg="#764929")  # la grille de jeu
+        self.game_frame = tk.Frame(self, bg="#764929  ")  # la grille de jeu
         self.game_frame.grid(row=1, column=0, padx=15)
 
         # boite menu
@@ -96,18 +95,22 @@ class DemineurUI(tk.Tk):
         # Création de la grille de jeu
         self.create_game_grid()
 
-        # Label pour les informations
-        self.info_label = tk.Label(self.menu_frame, text="Informations", font=("Helvetica", 16), width=13, height=1)
+        # Label timer
+        self.info_label = tk.Label(self.menu_frame, text="TIMER", font=("Helvetica", 16), width=13, height=1)
         self.info_label.grid(row=0, column=0, padx=5, pady=5)
+        #self.timer_label = tk.Label(self.menu_frame, text="Temps écoulé : 0 secondes", font=("Helvetica", 12),
+         #                           bg='#7e5835',
+          #                          fg="white", borderwidth=2, relief="groove", padx=10, pady=5)
+        #self.timer_label.grid(row=0, column=0, sticky="ew", padx=5, pady=(10, 0))
 
         # Boutons pour les niveaux de difficulté
-        self.easy_button = tk.Button(self.menu_frame, text="Facile", command=self.set_easy, width=10, height=2)
+        self.easy_button = tk.Button(self.menu_frame, text="Facile", command=self.set_easy, width=10, height=1, relief="groove")
         self.easy_button.grid(row=1, column=0, padx=5, pady=5)
 
-        self.medium_button = tk.Button(self.menu_frame, text="Moyen", command=self.set_medium, width=10, height=2)
+        self.medium_button = tk.Button(self.menu_frame, text="Moyen", command=self.set_medium, width=10, height=1, relief="groove")
         self.medium_button.grid(row=2, column=0, padx=5, pady=5)
 
-        self.hard_button = tk.Button(self.menu_frame, text="Difficile", command=self.set_hard, width=10, height=2)
+        self.hard_button = tk.Button(self.menu_frame, text="Difficile", command=self.set_hard, width=10, height=1, relief="groove")
         self.hard_button.grid(row=3, column=0, padx=5, pady=5)
 
         # Bouton pour réinitialiser le jeu
@@ -139,10 +142,16 @@ class DemineurUI(tk.Tk):
         cell.unbind("<Enter>")  # Désactiver l'effet de survol lorsque la case est révélée
         cell.unbind("<Leave>")  # Désactiver l'effet de survol lorsque la case est révélée
         cell.config(relief="sunken")  # Modifier le relief pour indiquer que la case est révélée
+
         if self.demineur.grille[row][col] == -1:
             cell.config(text="💣")  # Symbole de bombe
             self.message_label.config(text="Vous avez perdu !", fg="white")
             self.click = False
+            # Afficher toutes les bombes apres defaite
+            for bombe_sur_la_hauteur in range(self.demineur.hauteur):
+                for bombe_sur_la_largeur in range(self.demineur.largeur):
+                    if self.demineur.grille[bombe_sur_la_hauteur][bombe_sur_la_largeur] == -1:
+                        self.cells[bombe_sur_la_hauteur][bombe_sur_la_largeur].config(text="💣")
         else:
             nombre_bombes_adjacentes = self.demineur.compter_bombes_adjacentes(row, col)
             if nombre_bombes_adjacentes > 0:
@@ -156,6 +165,7 @@ class DemineurUI(tk.Tk):
                 self.message_label.config(text="Vous avez gagné !", fg="white")
                 self.victoire_affichee = True
                 self.click = False
+
 
     def reveler_cases_vides(self, row, col):
         for i in range(max(0, row - 1), min(self.demineur.hauteur, row + 2)):
@@ -200,7 +210,6 @@ class DemineurUI(tk.Tk):
         self.demineur = Demineur(hauteur, largeur, mines)
         self.create_game_grid()
         self.message_label.config(text="")
-
 
 if __name__ == "__main__":
     app = DemineurUI(10, 10, random.randint(5, 10))  # Niveau facile par défaut
